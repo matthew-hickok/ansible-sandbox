@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "web" do |web|
     web.vm.box = "centos/7"
     web.vm.hostname = "web"
-    web.vm.synced_folder ".\\ansible_data", "/home/vagrant/ansible_data"
+    web.vm.synced_folder ".\\web_data", "/etc/www"
     web.vm.network "private_network", ip: "192.168.33.6"
     web.vm.provision "shell", inline: <<-SHELL
       sudo yum install tree -y
@@ -38,8 +38,7 @@ Vagrant.configure("2") do |config|
   # Database
   config.vm.define "db" do |db|
     db.vm.box = "centos/7"
-    db.vm.hostname = "ansible-control"
-    db.vm.synced_folder ".\\ansible_data", "/home/vagrant/ansible_data"
+    db.vm.hostname = "db"
     db.vm.network "private_network", ip: "192.168.33.7"
     db.vm.provision "shell", inline: <<-SHELL
       sudo yum install tree -y
