@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
       sudo yum install epel-release -y
       sudo yum install ansible -y
       sudo yum install tree -y
+      sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
       SHELL
     ctl.vm.provider "virtualbox" do |vb|
       vb.memory = 512
@@ -26,6 +27,9 @@ Vagrant.configure("2") do |config|
     web.vm.hostname = "web"
     web.vm.synced_folder ".\\web_data", "/etc/www"
     web.vm.network "private_network", ip: "192.168.33.6"
+    web.vm.provision "shell", inline: <<-SHELL
+    sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+    SHELL
     web.vm.provider "virtualbox" do |vb|
       vb.memory = 512
       vb.gui = false
@@ -38,6 +42,9 @@ Vagrant.configure("2") do |config|
     web2.vm.hostname = "web2"
     web2.vm.synced_folder ".\\web_data", "/etc/www"
     web2.vm.network "private_network", ip: "192.168.33.7"
+    web2.vm.provision "shell", inline: <<-SHELL
+    sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+    SHELL
     web2.vm.provider "virtualbox" do |vb|
       vb.memory = 512
       vb.gui = false
@@ -49,6 +56,9 @@ Vagrant.configure("2") do |config|
     db.vm.box = "centos/7"
     db.vm.hostname = "db"
     db.vm.network "private_network", ip: "192.168.33.8"
+    db.vm.provision "shell", inline: <<-SHELL
+    sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+    SHELL
     db.vm.provider "virtualbox" do |vb|
       vb.memory = 512
       vb.gui = false
